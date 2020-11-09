@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 914234358617967675}
   - component: {fileID: 5241225574097496470}
   - component: {fileID: 9214627429103318336}
-  - component: {fileID: 8449209205638398630}
+  - component: {fileID: 5971386141550449468}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -80,8 +80,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &8449209205638398630
-CapsuleCollider:
+--- !u!64 &5971386141550449468
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -90,10 +90,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &5697316460430030175
 GameObject:
   m_ObjectHideFlags: 0
