@@ -6,6 +6,8 @@ public class PlayerMovement : MonoBehaviour
 {
     public float playerSpeed = 2.0f;
     public float jumpHeight = 1.0f;
+    public float horizontalSpeed = 2.0f;
+    public float verticalSpeed = 2.0f;
 
     private CharacterController controller;
     private Vector3 playerVelocity;
@@ -19,6 +21,19 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        //mouse movement
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+        float h = horizontalSpeed * Input.GetAxis("Mouse X");
+        float v = verticalSpeed * Input.GetAxis("Mouse Y");
+        if (Input.GetMouseButton(0))
+        {
+            foreach(Camera cam in Camera.allCameras)
+            {
+                cam.transform.Rotate(-v, h, 0);
+            }
+            //transform.Rotate(-v, h, 0);
+        }
+
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
@@ -26,7 +41,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        controller.Move(move * Time.deltaTime * playerSpeed);
+        float angle = Camera.main.transform.rotation.eulerAngles.y;
+        Vector3 rMove = Quaternion.AngleAxis(angle, Vector3.up) * move;
+        controller.Move(rMove * Time.deltaTime * playerSpeed);
+        //transform.rotation = Camera.main.transform.rotation;
 
         if (move != Vector3.zero)
         {
@@ -41,5 +59,6 @@ public class PlayerMovement : MonoBehaviour
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
+
     }
 }
