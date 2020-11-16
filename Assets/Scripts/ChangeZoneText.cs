@@ -7,6 +7,8 @@ public class ChangeZoneText : MonoBehaviour
 {
     public Text zoneText;
     public string zoneName;
+    public bool isSubZone;
+    public string parentName;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,5 +16,13 @@ public class ChangeZoneText : MonoBehaviour
         {
             zoneText.text = zoneName;
         }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (isSubZone && other.gameObject.name == "Player")
+        {
+            zoneText.text = parentName;
+        }
+
     }
 }
