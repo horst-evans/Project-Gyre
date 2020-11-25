@@ -1,2 +1,2 @@
 # Project-Gyre
- single player game based on large fleet city in that trades along the pacific gyre
+ Single player game based on a large fleet city that trades along the pacific gyre.
