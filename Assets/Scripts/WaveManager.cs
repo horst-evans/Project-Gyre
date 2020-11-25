@@ -10,6 +10,7 @@ public class WaveManager : MonoBehaviour
     public float length = 2f;
     public float speed = 1f;
     public float offset = 0f;
+    public float scale;
 
     private void Awake()
     {
@@ -22,6 +23,11 @@ public class WaveManager : MonoBehaviour
             Debug.Log("instance already exists, destroying object");
             Destroy(this);
         }
+    }
+
+    private void Start()
+    {
+        scale = transform.localScale.x;
     }
 
     private void Update()

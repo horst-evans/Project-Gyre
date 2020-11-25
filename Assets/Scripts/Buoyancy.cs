@@ -13,9 +13,8 @@ public class Buoyancy : MonoBehaviour
     {
         rb.AddForceAtPosition(Physics.gravity / buoyancyPoints, transform.position, ForceMode.Acceleration);
 
-        float waveHeight = WaveManager.instance.GetWaveHeight(transform.position.x);
-        //transform.position = new Vector3(transform.position.x, waveHeight, transform.position.z);
-        
+        float waveHeight = WaveManager.instance.GetWaveHeight(transform.position.x / WaveManager.instance.scale);
+
         if(transform.position.y < waveHeight)
         {
             float displacementMultiplier = Mathf.Clamp01((waveHeight - transform.position.y) / depthBeforeSubmerged) * displacementAmount;
