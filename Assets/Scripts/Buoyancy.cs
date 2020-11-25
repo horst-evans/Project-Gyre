@@ -4,8 +4,8 @@ public class Buoyancy : MonoBehaviour
 {
     public Rigidbody rb;
     public float depthBeforeSubmerged = 1f;
-    public float displacementAmount = 3f;
-    public int buoyancyPoints = 1;
+    public float displacementAmount = 3f; //how fast it "bounces" back
+    public int buoyancyPoints = 1; //how many instances of script affecting parent obj
     public float waterDrag = 0.99f;
     public float waterAngDrag = 0.5f;
 
