@@ -23,6 +23,5 @@ public class Buoyancy : MonoBehaviour
             rb.AddForce(displacementMultiplier * -rb.velocity * waterDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
             rb.AddTorque(displacementMultiplier * -rb.angularVelocity * waterAngDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
         }
-        
     }
 }

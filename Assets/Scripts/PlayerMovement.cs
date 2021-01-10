@@ -28,8 +28,10 @@ public class PlayerMovement : MonoBehaviour
         {
             foreach(Camera cam in Camera.allCameras)
             {
+                //rotate camera but not player for vertical offset
                 cam.transform.Rotate(-v, 0, 0);
             }
+            //rotate camera and player for horizontal offset
             transform.Rotate(0, h, 0);
         }
         groundedPlayer = controller.isGrounded;
@@ -37,12 +39,12 @@ public class PlayerMovement : MonoBehaviour
         {
             playerVelocity.y = 0f;
         }
+        //player move
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         float angle = Camera.main.transform.rotation.eulerAngles.y;
         Vector3 rMove = Quaternion.AngleAxis(angle, Vector3.up) * move;
         controller.Move(rMove * Time.deltaTime * playerSpeed);
-        //transform.rotation = Camera.main.transform.rotation;
-        // Changes the height position of the player..
+        // Changes the height position of the player...
         if (Input.GetButtonDown("Jump") && groundedPlayer)
         {
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
