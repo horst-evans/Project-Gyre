@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 
-public class TriggerStick : MonoBehaviour
+public class StickToSurface : MonoBehaviour
 {
     //should be deeper than player
     public float depthCheckDistance = 3;
-    public float playerHeight = 1;
+    public float objectHeight = 1;
+    public bool isPlayer = false;
 
     private void FixedUpdate()
     {
@@ -15,9 +16,9 @@ public class TriggerStick : MonoBehaviour
             Debug.DrawLine(transform.position, Vector3.down * depthCheckDistance, Color.red);
             //Debug.Log("Adjusting player pos");
             // if player is jumping, do not lock onto ship
-            if (Input.GetAxisRaw("Jump") == 0)
+            if (!isPlayer || Input.GetAxisRaw("Jump") == 0)
             {
-                transform.position = new Vector3(hit.point.x, hit.point.y + playerHeight, hit.point.z);
+                transform.position = new Vector3(hit.point.x, hit.point.y + objectHeight, hit.point.z);
             }
             //Debug.Log(transform.position.ToString());
         }
