@@ -848,31 +848,6 @@ MonoBehaviour:
   normalMoveSpeed: 10
   slowMoveFactor: 0.25
   fastMoveFactor: 3
---- !u!1 &1191103711 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5489369775653934905, guid: 975d8e65a784c4998a76ec5f407e1903,
-    type: 3}
-  m_PrefabInstance: {fileID: 749469786}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1191103712
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1191103711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e2cbbbdaa8114dc095d9ced41f0b1fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  depthBeforeSubmerged: 1
-  displacementAmount: 3
-  buoyancyPoints: 1
-  waterDrag: 0.99
-  waterAngDrag: 0.5
-  gravityDrag: 1
 --- !u!1 &1327117717
 GameObject:
   m_ObjectHideFlags: 0
