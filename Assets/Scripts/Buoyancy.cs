@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Buoyancy : MonoBehaviour
 {
@@ -9,6 +10,21 @@ public class Buoyancy : MonoBehaviour
     public float waterDrag = 0.99f;
     public float waterAngDrag = 0.5f;
     public float gravityDrag = 1;
+
+    private void Start()
+    {
+        if(rb == null)
+        {
+            try
+            {
+                rb = GetComponent<Rigidbody>();
+            }
+            catch(Exception e)
+            {
+                Debug.LogError(e);
+            }
+        }
+    }
 
     private void FixedUpdate()
     {
