@@ -11,12 +11,15 @@ public class UnderwaterEffect : MonoBehaviour
     private Color normalColor;
     [SerializeField]
     private Color underwaterColor;
+    [SerializeField]
+    private float fogDensity;
 
     // Use this for initialization
     void Start()
     {
         normalColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
         underwaterColor = new Color(0.22f, 0.65f, 0.77f, 0.5f);
+        fogDensity = 0.005f;
     }
 
     // Update is called once per frame
@@ -32,13 +35,15 @@ public class UnderwaterEffect : MonoBehaviour
 
     void SetNormal()
     {
-        RenderSettings.fogColor = normalColor;
-        RenderSettings.fogDensity = 0.01f;
+        RenderSettings.fog = false;
+        //RenderSettings.fogColor = normalColor;
+        //RenderSettings.fogDensity = 0.01f;
     }
 
     void SetUnderwater()
     {
+        RenderSettings.fog = true;
         RenderSettings.fogColor = underwaterColor;
-        RenderSettings.fogDensity = 0.1f;
+        RenderSettings.fogDensity = fogDensity;
     }
 }
