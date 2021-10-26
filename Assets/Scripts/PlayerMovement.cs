@@ -55,11 +55,11 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // debug stuff
-
+    /*
     // if movement would take player closer to center of collided object, dont move
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         Debug.Log("HIT: " + hit.collider.name);
     }
-
+    */
 }

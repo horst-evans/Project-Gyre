@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: tempWater
+  m_Name: OceanSurface
   m_Shader: {fileID: -6465566751694194690, guid: 3190c1c2b622c4bb6b995d7aef5f49aa,
     type: 3}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON
@@ -132,6 +132,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_382AE7BE: 3
+    - Vector1_8E3B4A8B: 0.1
     - Vector1_B5398D61: 7
     - Vector1_B7DC354E: 1
     - _AlphaClip: 0
