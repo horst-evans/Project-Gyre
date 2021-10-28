@@ -9,57 +9,61 @@ public class PlayerMovement : MonoBehaviour
     public float horizontalSpeed = 2.0f;
     public float verticalSpeed = 2.0f;
 
-    private CharacterController controller;
-    private Vector3 playerVelocity;
-    private bool groundedPlayer;
-    private float gravityValue = -9.81f;
+    private bool isGrounded = false;
+    private Rigidbody rb;
+    private Vector3 jump;
 
     private void Start()
     {
-        controller = gameObject.GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
+        jump = new Vector3(0, 1, 0);
     }
 
     void Update()
     {
         //mouse movement
-        float h = horizontalSpeed * Input.GetAxis("Mouse X");
-        float v = verticalSpeed * Input.GetAxis("Mouse Y");
+        float cam_h = horizontalSpeed * Input.GetAxis("Mouse X");
+        float cam_v = verticalSpeed * Input.GetAxis("Mouse Y");
         if (Input.GetMouseButton(0))
         {
             foreach(Camera cam in Camera.allCameras)
             {
                 //rotate camera but not player for vertical offset
-                cam.transform.Rotate(-v, 0, 0);
+                cam.transform.Rotate(-cam_v, 0, 0);
             }
             //rotate camera and player for horizontal offset
-            transform.Rotate(0, h, 0);
+            transform.Rotate(0, cam_h, 0);
         }
-        groundedPlayer = controller.isGrounded;
-        if (groundedPlayer && playerVelocity.y < 0)
-        {
-            playerVelocity.y = 0f;
-        }
+
         //player move
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         float angle = Camera.main.transform.rotation.eulerAngles.y;
         Vector3 rMove = Quaternion.AngleAxis(angle, Vector3.up) * move;
-        controller.Move(rMove * Time.deltaTime * playerSpeed);
-        // Changes the height position of the player...
-        if (Input.GetButtonDown("Jump") && groundedPlayer)
+        //transform.Translate(playerSpeed * Time.deltaTime * transform.forward * Input.GetAxis("Vertical"));
+        Vector3 trans = playerSpeed * Time.deltaTime * rMove;
+        transform.Translate(trans,Space.World);
+        // jump
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            rb.AddForce(jump * jumpHeight, ForceMode.Impulse);
+            isGrounded = false;
         }
-
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
     }
 
-    // debug stuff
-    /*
-    // if movement would take player closer to center of collided object, dont move
-    private void OnControllerColliderHit(ControllerColliderHit hit)
+    private void OnCollisionStay(Collision collision)
     {
-        Debug.Log("HIT: " + hit.collider.name);
+        isGrounded = true;
     }
-    */
+
+    // Set As Child
+    private void OnCollisionEnter(Collision collision)
+    {
+        //Debug.Log("HIT: " + collision.collider.name);
+        // 9 == ship
+        if (collision.gameObject.layer == 9)
+        {
+            transform.parent = collision.transform.root;
+        }
+    }
+    
 }
