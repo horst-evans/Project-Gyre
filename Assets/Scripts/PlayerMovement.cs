@@ -64,6 +64,10 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.parent = collision.transform.root;
         }
+        else
+        {
+            transform.parent = null;
+        }
     }
     
 }
