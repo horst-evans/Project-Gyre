@@ -5,18 +5,18 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float playerSpeed = 2.0f;
-    public float jumpHeight = 1.0f;
+    public float jumpForce = 1.0f;
     public float horizontalSpeed = 2.0f;
     public float verticalSpeed = 2.0f;
+    public float gravity = -9.81f;
+    public float distanceToCheck = 0.5f;
 
     private bool isGrounded = false;
-    private Rigidbody rb;
-    private Vector3 jump;
+    private float velocity;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        jump = new Vector3(0, 1, 0);
+        
     }
 
     void Update()
@@ -42,17 +42,30 @@ public class PlayerMovement : MonoBehaviour
         //transform.Translate(playerSpeed * Time.deltaTime * transform.forward * Input.GetAxis("Vertical"));
         Vector3 trans = playerSpeed * Time.deltaTime * rMove;
         transform.Translate(trans,Space.World);
-        // jump
+
+        // jump + gravity
+        if (!isGrounded) velocity += gravity * Time.deltaTime;
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            rb.AddForce(jump * jumpHeight, ForceMode.Impulse);
+            velocity = jumpForce;
+            //rb.AddForce(jump * jumpHeight, ForceMode.Impulse);
             isGrounded = false;
+            // detach from ship (don't want to sway if jumping to a non-ship obj)
+            transform.parent = null;
         }
-    }
+        transform.Translate(new Vector3(0, velocity, 0) * Time.deltaTime, Space.Self);
 
-    private void OnCollisionStay(Collision collision)
-    {
-        isGrounded = true;
+        // ground check
+        if (Physics.Raycast(transform.position, -transform.up, distanceToCheck))
+        {
+            isGrounded = true;
+            velocity = 0;
+        }
+        else
+        {
+            isGrounded = false;
+            transform.parent = null;
+        }
     }
 
     // Set As Child
@@ -62,12 +75,15 @@ public class PlayerMovement : MonoBehaviour
         // 9 == ship
         if (collision.gameObject.layer == 9)
         {
+            float y_diff = transform.rotation.eulerAngles.y;
             transform.parent = collision.transform.root;
+            transform.up = transform.parent.up;
+            transform.Rotate(transform.up, y_diff);
         }
         else
         {
             transform.parent = null;
         }
     }
-    
+
 }

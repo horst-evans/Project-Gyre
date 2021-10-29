@@ -13,7 +13,6 @@ public class StickToSurface : MonoBehaviour
         int layerMask = 1 << 8;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, depthCheckDistance, ~layerMask))
         {
-            Debug.DrawLine(transform.position, Vector3.down * depthCheckDistance, Color.red);
             // if player is jumping, do not lock onto ship
             if (!isPlayer || Input.GetAxisRaw("Jump") == 0)
             {
