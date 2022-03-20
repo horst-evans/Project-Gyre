@@ -61,9 +61,11 @@ public class PlayerMovement : MonoBehaviour
         // apply jump
         transform.Translate(new Vector3(0, velocity, 0) * Time.deltaTime, Space.Self);
 
+        RaycastHit hit;
         // ground check
-        if (Physics.Raycast(transform.position, -transform.up, distanceToCheck))
+        if (Physics.Raycast(transform.position, -transform.up, out hit, distanceToCheck))
         {
+            ProcessCollider(hit.collider);
             isGrounded = true;
             velocity = 0;
             childTime = 0;
@@ -72,23 +74,32 @@ public class PlayerMovement : MonoBehaviour
         {
             isGrounded = false;
         }
+        
     }
 
     // Set As Child
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("HIT: " + collision.collider.name);
-        // 9 == ship
-        if (collision.gameObject.layer == 9)
+        ProcessCollider(collision.collider);
+    }
+
+    private void ProcessCollider(Collider col)
+    {
+        if (!isGrounded)
         {
+            Debug.Log("HIT: " + col.name);
             float y_diff = transform.rotation.eulerAngles.y;
-            transform.parent = collision.transform.root;
-            transform.up = transform.parent.up;
+            transform.up = col.transform.root.up;
             transform.Rotate(transform.up, y_diff);
-        }
-        else
-        {
-            transform.parent = null;
+            // layer 9 == ship
+            if (col.gameObject.layer == 9)
+            {
+                transform.parent = col.transform.root;
+            }
+            else
+            {
+                transform.parent = null;
+            }
         }
     }
 
