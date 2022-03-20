@@ -13,10 +13,11 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isGrounded = false;
     private float velocity;
+    private float childTime;
 
     private void Start()
     {
-        
+        childTime = 0;
     }
 
     void Update()
@@ -38,21 +39,26 @@ public class PlayerMovement : MonoBehaviour
         //player move
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         float angle = Camera.main.transform.rotation.eulerAngles.y;
-        Vector3 rMove = Quaternion.AngleAxis(angle, Vector3.up) * move;
+        //Vector3 rMove = Quaternion.AngleAxis(angle, Vector3.up) * move;
         //transform.Translate(playerSpeed * Time.deltaTime * transform.forward * Input.GetAxis("Vertical"));
-        Vector3 trans = playerSpeed * Time.deltaTime * rMove;
-        transform.Translate(trans,Space.World);
+        Vector3 trans = playerSpeed * Time.deltaTime * move;
+        transform.Translate(trans,Space.Self);
 
         // jump + gravity
+        childTime += Time.deltaTime;
         if (!isGrounded) velocity += gravity * Time.deltaTime;
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity = jumpForce;
             //rb.AddForce(jump * jumpHeight, ForceMode.Impulse);
             isGrounded = false;
-            // detach from ship (don't want to sway if jumping to a non-ship obj)
+        }
+        // detach from ship (don't want to sway if jumping to a non-ship obj)
+        if (childTime > 2)
+        {
             transform.parent = null;
         }
+        // apply jump
         transform.Translate(new Vector3(0, velocity, 0) * Time.deltaTime, Space.Self);
 
         // ground check
@@ -60,18 +66,18 @@ public class PlayerMovement : MonoBehaviour
         {
             isGrounded = true;
             velocity = 0;
+            childTime = 0;
         }
         else
         {
             isGrounded = false;
-            transform.parent = null;
         }
     }
 
     // Set As Child
     private void OnCollisionEnter(Collision collision)
     {
-        //Debug.Log("HIT: " + collision.collider.name);
+        Debug.Log("HIT: " + collision.collider.name);
         // 9 == ship
         if (collision.gameObject.layer == 9)
         {
