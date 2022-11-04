@@ -85,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void ProcessCollider(Collider col)
     {
-        if (!isGrounded)
+        if (!isGrounded && transform.parent == null)
         {
             Debug.Log("HIT: " + col.name);
             float y_diff = transform.rotation.eulerAngles.y;
